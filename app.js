@@ -1,10 +1,13 @@
-const audio = new Audio('');
+const audio = new Audio('./sounds/greetings.mp3');
+const greetings = document.querySelector('.greetings');
+const greetingusername = document.querySelector('.username');
 
 const client = new tmi.Client({
   connection: {
     secure: true,
     reconnect: true,
   },
+  // channels: ["wintrfox"],
   channels: ["chaz88p"],
 });
 
@@ -14,7 +17,9 @@ client.on('message', (channel, tags, message, self) => {
 	if(self) return;
   var user = tags['display-name'];
   var usermsg = message;
-  var newmsg = "First time chatter " + user + " says " + usermsg;
+  if(tags['first-msg']) {
+    var newmsg = "First time chatter " + user + " says " + usermsg;
+  }
   if ('speechSynthesis' in window) {
     var msg = new SpeechSynthesisUtterance();
     var voices = window.speechSynthesis.getVoices();
@@ -30,11 +35,19 @@ client.on('message', (channel, tags, message, self) => {
   }
 	console.log(`${tags['display-name']}: ${message}`, tags);
 	// if(message.toLowerCase() === '!tba') { }
+  greetingusername.innerHTML = "Greetings <span>" + user + "!</span>";
   if(tags['first-msg']) {
-    audio.play();
-    speechSynthesis.speak(msg);
+    greetings.classList.add('anim');
+    setTimeout(() => {
+      audio.play();
+    }, 500);
+    setTimeout(() => {
+      greetings.classList.remove('anim');
+    }, 3000);
+    // speechSynthesis.speak(msg);
   }
   if(tags['returning-chatter']) {
     console.log("returning chatter");
   }
+
 });
