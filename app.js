@@ -17,6 +17,15 @@ client.on('message', (channel, tags, message, self) => {
 	if(self) return;
   var user = tags['display-name'];
   var usermsg = message;
+  if(tags['badges']['broadcaster'] & message.toLowerCase() === '!orisa') {
+    greetings.classList.add('anim');
+    setTimeout(() => {
+      audio.play();
+    }, 500);
+    setTimeout(() => {
+      greetings.classList.remove('anim');
+    }, 3000);
+  }
   if(tags['first-msg']) {
     var newmsg = "First time chatter " + user + " says " + usermsg;
   }
