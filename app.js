@@ -15,9 +15,14 @@ client.connect();
 
 client.on('message', (channel, tags, message, self) => {
 	if(self) return;
-  var user = tags['display-name'];
-  var usermsg = message;
+  // var user = tags['display-name'];
+  // var usermsg = message;
+  // if(tags['first-msg']) {
+  //   var user = tags['display-name'];
+  //   var newmsg = "First time chatter " + user + " says " + usermsg;
+  // }
   if(tags['badges']['broadcaster'] & message.toLowerCase() === '!orisa') {
+    greetingusername.innerHTML = "Greetings <span>" + tags['display-name'] + "!</span>";
     greetings.classList.add('anim');
     setTimeout(() => {
       audio.play();
@@ -25,9 +30,6 @@ client.on('message', (channel, tags, message, self) => {
     setTimeout(() => {
       greetings.classList.remove('anim');
     }, 3000);
-  }
-  if(tags['first-msg']) {
-    var newmsg = "First time chatter " + user + " says " + usermsg;
   }
   if ('speechSynthesis' in window) {
     var msg = new SpeechSynthesisUtterance();
@@ -44,8 +46,8 @@ client.on('message', (channel, tags, message, self) => {
   }
 	console.log(`${tags['display-name']}: ${message}`, tags);
 	// if(message.toLowerCase() === '!tba') { }
-  greetingusername.innerHTML = "Greetings <span>" + user + "!</span>";
   if(tags['first-msg']) {
+    greetingusername.innerHTML = "Greetings <span>" + tags['display-name'] + "!</span>";
     greetings.classList.add('anim');
     setTimeout(() => {
       audio.play();
