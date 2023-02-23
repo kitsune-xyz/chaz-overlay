@@ -29,8 +29,7 @@ client.on('message', (channel, tags, message, self) => {
       console.log("Speech Synthesis is not supported by your browser. 😣")
   }
 	console.log(`${tags['display-name']}: ${message}`, tags);
-	// if(message.toLowerCase() === '!tba') {
-	// }
+	// if(message.toLowerCase() === '!tba') { }
   if(tags['first-msg']) {
     audio.play();
     speechSynthesis.speak(msg);
