@@ -12,14 +12,13 @@ const client = new tmi.Client({
 
 client.connect();
 
-
 client.on('message', (channel, tags, message, self) => {
 	if(self) return;
 
 	if(message.toLowerCase() === '!song') {
     const request = new XMLHttpRequest();
 
-    request.open('GET', 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=+chaz88p&api_key='+lastFMAPI+'&format=json');
+    request.open('GET', 'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=+chaz88p&api_key='+lastFMAPI+'&format=json');
     request.send(); 
 
     request.onload = () => {
