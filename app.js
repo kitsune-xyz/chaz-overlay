@@ -6,7 +6,7 @@ const client = new tmi.Client({
 		username: 'chaz88pbot',
 		password: 'oauth:7kbl0yx35mdc6lncuom3dc9ia2cnpj'
 	},
-	channels: [ 'wintrfox' ]
+	channels: [ 'chaz88p' ]
 });
 
 
