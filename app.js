@@ -6,7 +6,7 @@ const client = new tmi.Client({
 		username: 'chaz88pbot',
 		password: 'oauth:7kbl0yx35mdc6lncuom3dc9ia2cnpj'
 	},
-	channels: [ 'chaz88p' ]
+	channels: [ 'wintrfox' ]
 });
 
 
@@ -26,7 +26,8 @@ client.on('message', (channel, tags, message, self) => {
         if (request.status === 200) {
             // console.log("Success");
             var song = JSON.parse(request.response).recenttracks.track[0].name;
-            client.say(channel, `@${tags.username}, Current/Last song is ${song}`);
+            var artist = JSON.parse(request.response).recenttracks.track[0].artist["#text"];
+            client.say(channel, `@${tags.username}, Current/Last song is ${song} by ${artist}`);
         } 
     };
 
