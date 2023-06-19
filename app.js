@@ -27,7 +27,7 @@ client.on('message', (channel, tags, message, self) => {
             // console.log("Success");
             var song = JSON.parse(request.response).recenttracks.track[0].name;
             var artist = JSON.parse(request.response).recenttracks.track[0].artist["#text"];
-            client.say(channel, `@${tags.username}, Current/Last song is ${song} by ${artist}`);
+            client.say(channel, `@${tags.username}, Last/Current song is ${song} by ${artist}`);
         } 
     };
 
