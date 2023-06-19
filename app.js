@@ -1,64 +1,38 @@
-const audio = new Audio('./sounds/greetings.mp3');
-const greetings = document.querySelector('.greetings');
-const greetingusername = document.querySelector('.username');
+const lastFMAPI = "e256889460be228684924e974a356380"
 
 const client = new tmi.Client({
-  connection: {
-    secure: true,
-    reconnect: true,
-  },
-  // channels: ["wintrfox"],
-  channels: ["chaz88p"],
+	options: { debug: true },
+	identity: {
+		username: 'chaz88pbot',
+		password: 'oauth:7kbl0yx35mdc6lncuom3dc9ia2cnpj'
+	},
+	channels: [ 'chaz88p' ]
 });
+
 
 client.connect();
 
+
 client.on('message', (channel, tags, message, self) => {
 	if(self) return;
-  // var user = tags['display-name'];
-  // var usermsg = message;
-  // if(tags['first-msg']) {
-  //   var user = tags['display-name'];
-  //   var newmsg = "First time chatter " + user + " says " + usermsg;
-  // }
-  if(tags['badges']['broadcaster'] & message.toLowerCase() === '!orisa') {
-    greetingusername.innerHTML = "Greetings <span>" + tags['display-name'] + "!</span>";
-    greetings.classList.add('anim');
-    setTimeout(() => {
-      audio.play();
-    }, 500);
-    setTimeout(() => {
-      greetings.classList.remove('anim');
-    }, 3000);
-  }
-  if ('speechSynthesis' in window) {
-    var msg = new SpeechSynthesisUtterance();
-    var voices = window.speechSynthesis.getVoices();
-    msg.voice = voices[10];
-    msg.voiceURI = 'native';
-    msg.volume = 1;
-    msg.rate = 1;
-    msg.pitch = 1;
-    msg.text = newmsg;
-    msg.lang = 'en-US';
-    } else {
-      console.log("Speech Synthesis is not supported by your browser. 😣")
-  }
-	console.log(`${tags['display-name']}: ${message}`, tags);
-	// if(message.toLowerCase() === '!tba') { }
-  if(tags['first-msg']) {
-    greetingusername.innerHTML = "Greetings <span>" + tags['display-name'] + "!</span>";
-    greetings.classList.add('anim');
-    setTimeout(() => {
-      audio.play();
-    }, 500);
-    setTimeout(() => {
-      greetings.classList.remove('anim');
-    }, 3000);
-    // speechSynthesis.speak(msg);
-  }
-  if(tags['returning-chatter']) {
-    console.log("returning chatter");
-  }
 
+	if(message.toLowerCase() === '!song') {
+    const request = new XMLHttpRequest();
+
+    request.open('GET', 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=+chaz88p&api_key='+lastFMAPI+'&format=json');
+    request.send(); 
+
+    request.onload = () => {
+        if (request.status === 200) {
+            // console.log("Success");
+            var song = JSON.parse(request.response).recenttracks.track[0].name;
+            client.say(channel, `@${tags.username}, Current/Last song is ${song}`);
+        } 
+    };
+
+    request.onerror = () => {
+      console.log("error")
+    };
+
+	}
 });
