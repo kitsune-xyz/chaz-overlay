@@ -64,7 +64,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   }
 }
 
-ComfyJS.Init( "wintrfox" );
+ComfyJS.Init( "chaz88p" );
 
 
 // const client = new tmi.Client({
