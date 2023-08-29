@@ -59,7 +59,7 @@ function removeDittoElements() {
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   if( flags.broadcaster || flags.mod && command === "konga" ) {
     konga();
-  } else if( flags.broadcaster && command === "stop" ) {
+  } else if( flags.broadcaster || flags.mod && command === "stop" ) {
     removeDittoElements();
   }
 }
